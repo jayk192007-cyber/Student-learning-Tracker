@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track courses, study tasks, and learning progress in one simple dashboard.">
+  <title>Student Learning Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="Student Learning Tracker home">
+        <span class="brand-mark">SL</span>
+        <span><strong>StudySpace</strong><small>Learning tracker</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a class="nav-link active" href="#dashboard" data-view="dashboard"><span>▦</span> Dashboard</a>
+        <a class="nav-link" href="#courses" data-view="courses"><span>▤</span> My Courses</a>
+        <a class="nav-link" href="#tasks" data-view="tasks"><span>✓</span> Study Tasks</a>
+      </nav>
+      <div class="sidebar-note">
+        <span class="note-icon">✦</span>
+        <strong>Small steps add up.</strong>
+        <p>Make a little progress every day and celebrate how far you've come.</p>
+      </div>
+      <div class="sidebar-footer"><span class="status-dot"></span> Your learning journey, organized</div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="menuButton" aria-label="Toggle navigation">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="pageLabel">Dashboard</strong></div>
+        <div class="topbar-right"><span class="today-label" id="todayLabel"></span><div class="avatar" aria-hidden="true">S</div></div>
+      </header>
+
+      <section class="view active-view" id="dashboardView">
+        <div class="page-heading">
+          <div><p class="eyebrow">YOUR PERSONAL STUDY SPACE</p><h1 id="greeting">Welcome back! 👋</h1><p class="muted">A little progress today goes a long way. Let's keep learning.</p></div>
+          <button class="primary-button" id="quickAddTask">＋ Add a task</button>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total courses</span><span class="stat-icon violet">▤</span></div><strong id="totalCourses">0</strong><p class="stat-foot">Courses you're learning</p></article>
+          <article class="stat-card"><div class="stat-top"><span>Total study tasks</span><span class="stat-icon blue">✓</span></div><strong id="totalTasks">0</strong><p class="stat-foot">Tasks in your planner</p></article>
+          <article class="stat-card"><div class="stat-top"><span>Tasks completed</span><span class="stat-icon green">★</span></div><strong id="completedTasks">0</strong><p class="stat-foot">Every completed task counts</p></article>
+          <article class="stat-card"><div class="stat-top"><span>Overall progress</span><span class="stat-icon orange">↗</span></div><strong id="overallProgress">0%</strong><div class="progress-track"><span id="overallProgressBar"></span></div></article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel courses-panel">
+            <div class="panel-heading"><div><h2>Continue learning</h2><p class="muted">Your current courses</p></div><button class="text-button" data-go="courses">View all →</button></div>
+            <div id="dashboardCourses" class="course-list"></div>
+          </section>
+          <section class="panel tasks-panel">
+            <div class="panel-heading"><div><h2>Upcoming tasks</h2><p class="muted">What to focus on next</p></div><button class="text-button" data-go="tasks">View all →</button></div>
+            <div id="dashboardTasks" class="task-list"></div>
+          </section>
+        </div>
+        <section class="quote-card"><div class="quote-star">✦</div><div><strong>Consistency beats perfection.</strong><p>Focus on your next small step. Your future self will thank you.</p></div><span class="quote-decoration">✧</span></section>
+      </section>
+
+      <section class="view" id="coursesView">
+        <div class="page-heading"><div><p class="eyebrow">BUILD YOUR KNOWLEDGE</p><h1>My Courses</h1><p class="muted">Organize the subjects and skills you're learning.</p></div><button class="primary-button" id="addCourseButton">＋ Add course</button></div>
+        <div class="toolbar"><label class="search-box"><span>⌕</span><input id="courseSearch" type="search" placeholder="Search courses..." aria-label="Search courses"></label><span class="result-count" id="courseCount"></span></div>
+        <div class="course-grid" id="allCourses"></div>
+      </section>
+
+      <section class="view" id="tasksView">
+        <div class="page-heading"><div><p class="eyebrow">PLAN • FOCUS • FINISH</p><h1>Study Tasks</h1><p class="muted">Turn your learning goals into manageable steps.</p></div><button class="primary-button" id="addTaskButton">＋ Add task</button></div>
+        <div class="toolbar task-toolbar"><label class="search-box"><span>⌕</span><input id="taskSearch" type="search" placeholder="Search tasks..." aria-label="Search tasks"></label><select id="taskFilter" aria-label="Filter tasks"><option value="all">All tasks</option><option value="pending">Pending</option><option value="completed">Completed</option></select><select id="priorityFilter" aria-label="Filter by priority"><option value="all">All priorities</option><option value="High">High priority</option><option value="Medium">Medium priority</option><option value="Low">Low priority</option></select></div>
+        <section class="panel task-table-panel"><div class="task-table-wrap"><table><thead><tr><th>Task</th><th>Course</th><th>Due date</th><th>Priority</th><th>Status</th><th>Action</th></tr></thead><tbody id="taskTableBody"></tbody></table></div><div class="empty-state hidden" id="emptyTasks"><span>✓</span><h3>No tasks found</h3><p>Try a different filter or add a new study task.</p></div></section>
+      </section>
+
+      <footer class="footer">Made for focused learning <span>♥</span> <span class="footer-divider">•</span> Student Learning Tracker</footer>
+    </main>
+  </div>
+
+  <dialog class="modal" id="courseDialog">
+    <form id="courseForm" method="dialog">
+      <div class="modal-heading"><div><p class="eyebrow">GROW YOUR SKILLS</p><h2 id="courseDialogTitle">Add a course</h2></div><button type="button" class="icon-button close-dialog" aria-label="Close">×</button></div>
+      <input type="hidden" id="courseId">
+      <label class="field-label" for="courseName">Course name</label><input class="field-input" id="courseName" maxlength="60" required placeholder="e.g. Python Programming">
+      <label class="field-label" for="courseCategory">Category</label><select class="field-input" id="courseCategory"><option>Programming</option><option>Computer Science</option><option>Cloud Computing</option><option>Language</option><option>Personal Development</option><option>Other</option></select>
+      <label class="field-label" for="courseProgress">Progress <span id="progressValue">0%</span></label><input class="range-input" type="range" id="courseProgress" min="0" max="100" step="5" value="0">
+      <label class="field-label" for="courseColor">Card color</label><select class="field-input" id="courseColor"><option value="violet">Violet</option><option value="blue">Blue</option><option value="green">Green</option><option value="orange">Orange</option><option value="pink">Pink</option></select>
+      <div class="modal-actions"><button type="button" class="secondary-button cancel-dialog">Cancel</button><button class="primary-button" type="submit">Save course</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="taskDialog">
+    <form id="taskForm" method="dialog">
+      <div class="modal-heading"><div><p class="eyebrow">ONE STEP AT A TIME</p><h2 id="taskDialogTitle">Add a study task</h2></div><button type="button" class="icon-button close-dialog" aria-label="Close">×</button></div>
+      <input type="hidden" id="taskId">
+      <label class="field-label" for="taskTitle">Task title</label><input class="field-input" id="taskTitle" maxlength="100" required placeholder="e.g. Revise arrays in C">
+      <label class="field-label" for="taskCourse">Related course</label><select class="field-input" id="taskCourse" required></select>
+      <div class="field-row"><div><label class="field-label" for="taskDue">Due date</label><input class="field-input" type="date" id="taskDue" required></div><div><label class="field-label" for="taskPriority">Priority</label><select class="field-input" id="taskPriority"><option>Low</option><option selected>Medium</option><option>High</option></select></div></div>
+      <label class="field-label" for="taskNotes">Notes (optional)</label><textarea class="field-input" id="taskNotes" rows="3" maxlength="240" placeholder="Add a short note..."></textarea>
+      <div class="modal-actions"><button type="button" class="secondary-button cancel-dialog">Cancel</button><button class="primary-button" type="submit">Save task</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
