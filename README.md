@@ -1,5 +1,5 @@
 # Student Learning Tracker 📚
-
+To track student activity...
 A responsive student productivity dashboard built with **HTML, CSS, and vanilla JavaScript**. Organize courses, plan study tasks, and monitor progress from one simple interface.
 
 ## Features
